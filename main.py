@@ -22,27 +22,25 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-excel_data_df = pandas.read_excel('wine.xlsx', sheet_name='Лист1')
-wines = excel_data_df.to_dict(orient='record')
-
 excel_data_df = pandas.read_excel(
-    'wine2.xlsx',
+    'wine3.xlsx',
     sheet_name='Лист1',
     na_values=' ',
     keep_default_na=False
 )
 
-wines_2 = excel_data_df.to_dict(orient='record')
+wines_3 = excel_data_df.to_dict(orient='record')
 grouped_wines = collections.defaultdict(list)
-for wine in wines_2:
+for wine in wines_3:
     key = wine.get('Категория')
     grouped_wines[key].append(wine)
+
+pprint(grouped_wines)
 
 template = env.get_template('template.html')
 
 rendered_page = template.render(
     winery_age=winery_age,
-    wines=wines,
     grouped_wines=grouped_wines
 )
 
