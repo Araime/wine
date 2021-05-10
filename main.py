@@ -25,13 +25,6 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-template = env.get_template('template.html')
-
-rendered_page = template.render(
-    winery_age=winery_age,
-    wines=wines
-)
-
 excel_data_df = pandas.read_excel(
     'wine2.xlsx',
     sheet_name='Лист1',
@@ -44,6 +37,13 @@ wines_by_categories = {}
 
 for wine in wines_2:
     wines_by_categories.setdefault(wine['Категория'], []).append(wine)
+
+template = env.get_template('template.html')
+
+rendered_page = template.render(
+    winery_age=winery_age,
+    wines=wines
+)
 
 pprint(wines_by_categories)
 
