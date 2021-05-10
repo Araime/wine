@@ -1,5 +1,6 @@
 import datetime
 import pandas
+from pprint import pprint
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -8,7 +9,7 @@ current_year = today.year
 
 excel_data_df = pandas.read_excel('wine.xlsx', sheet_name='Лист1')
 wines = excel_data_df.to_dict(orient='record')
-print(wines)
+pprint(wines)
 
 
 def get_age(current_year):
