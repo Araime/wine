@@ -7,10 +7,6 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 today = datetime.datetime.now()
 current_year = today.year
 
-excel_data_df = pandas.read_excel('wine.xlsx', sheet_name='Лист1')
-wines = excel_data_df.to_dict(orient='record')
-pprint(wines)
-
 
 def get_age(current_year):
     foundation_date = 1920
@@ -24,6 +20,9 @@ env = Environment(
     loader=FileSystemLoader('.'),
     autoescape=select_autoescape(['html', 'xml'])
 )
+
+excel_data_df = pandas.read_excel('wine.xlsx', sheet_name='Лист1')
+wines = excel_data_df.to_dict(orient='record')
 
 excel_data_df = pandas.read_excel(
     'wine2.xlsx',
@@ -42,10 +41,9 @@ template = env.get_template('template.html')
 
 rendered_page = template.render(
     winery_age=winery_age,
-    wines=wines
+    wines=wines,
+    wines_2=wines_2
 )
-
-pprint(wines_by_categories)
 
 with open('index.html', 'w', encoding='utf8') as file:
     file.write(rendered_page)
