@@ -32,6 +32,21 @@ rendered_page = template.render(
     wines=wines
 )
 
+excel_data_df = pandas.read_excel(
+    'wine2.xlsx',
+    sheet_name='Лист1',
+    na_values=' ',
+    keep_default_na=False
+)
+
+wines_2 = excel_data_df.to_dict(orient='record')
+wines_by_categories = {}
+
+for wine in wines_2:
+    wines_by_categories.setdefault(wine['Категория'], []).append(wine)
+
+pprint(wines_by_categories)
+
 with open('index.html', 'w', encoding='utf8') as file:
     file.write(rendered_page)
 
