@@ -38,8 +38,6 @@ for wine in wines_2:
     key = wine.get('Категория')
     grouped_wines[key].append(wine)
 
-pprint(grouped_wines)
-
 template = env.get_template('template.html')
 
 rendered_page = template.render(
