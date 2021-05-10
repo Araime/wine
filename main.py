@@ -28,7 +28,8 @@ env = Environment(
 template = env.get_template('template.html')
 
 rendered_page = template.render(
-    winery_age=winery_age
+    winery_age=winery_age,
+    wines=wines
 )
 
 with open('index.html', 'w', encoding='utf8') as file:
