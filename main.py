@@ -37,7 +37,6 @@ for wine in wines_3:
     grouped_wines[key].append(wine)
 
 assorted_wines = OrderedDict(sorted(grouped_wines.items()))
-pprint(grouped_wines)
 
 template = env.get_template('template.html')
 
