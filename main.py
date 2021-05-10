@@ -1,5 +1,6 @@
 import datetime
 import pandas
+import collections
 from pprint import pprint
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -32,17 +33,19 @@ excel_data_df = pandas.read_excel(
 )
 
 wines_2 = excel_data_df.to_dict(orient='record')
-wines_by_categories = {}
-
+grouped_wines = collections.defaultdict(list)
 for wine in wines_2:
-    wines_by_categories.setdefault(wine['Категория'], []).append(wine)
+    key = wine.get('Категория')
+    grouped_wines[key].append(wine)
+
+pprint(grouped_wines)
 
 template = env.get_template('template.html')
 
 rendered_page = template.render(
     winery_age=winery_age,
     wines=wines,
-    wines_by_categories=wines_by_categories
+    grouped_wines=grouped_wines
 )
 
 with open('index.html', 'w', encoding='utf8') as file:
