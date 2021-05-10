@@ -1,6 +1,7 @@
 import datetime
 import pandas
 import collections
+from collections import OrderedDict
 from pprint import pprint
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -35,13 +36,14 @@ for wine in wines_3:
     key = wine.get('Категория')
     grouped_wines[key].append(wine)
 
+assorted_wines = OrderedDict(sorted(grouped_wines.items()))
 pprint(grouped_wines)
 
 template = env.get_template('template.html')
 
 rendered_page = template.render(
     winery_age=winery_age,
-    grouped_wines=grouped_wines
+    assorted_wines=assorted_wines
 )
 
 with open('index.html', 'w', encoding='utf8') as file:
