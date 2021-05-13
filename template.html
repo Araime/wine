@@ -113,7 +113,7 @@
             </p>
           </div>
         </div>
-      {% for key, value in sorted_by_order_of_wine.items() %}
+          {% for key, value in sorted_by_order_of_wine.items() %}
         <div class="row">
           <div class="col-12 section-title text-center mb-5">
             <h2 class="d-block">{{key}}</h2>
@@ -124,28 +124,28 @@
           {% for wine in value %}
             <div class="col-lg-4 mb-5 col-md-6">
               <div class="wine_v_1 text-center pb-4 pt-5">
-            {% if wine.get('Акция') %}
+                {% if wine.get('Акция') %}
               <img src="images/{{wine.Картинка}}" alt="Image" class="img-fluid">
               <img src="assets/profitable.png" style="width:10rem;height: 10rem;position:absolute;right: -20px;top: -20px;">
-            {% else %}
+                {% else %}
               <img src="images/{{wine.Картинка}}" alt="Image" class="img-fluid">
-            {% endif %}
+                {% endif %}
               <div>
                 <h3 class="heading mt-3 mb-3 text-dark">{{wine.Название}}</h3>
                 <p>
-                {% if not wine.get('Сорт') %}
+                  {% if not wine.get('Сорт') %}
                   <span class="price">{{wine.Цена}} р.</span>
-                {% else %}
+                    {% else %}
                   Сорт винограда - {{wine.Сорт}}<br/>
                   <span class="price">{{wine.Цена}} р.</span>
-                {% endif %}
+                    {% endif %}
                   </p>
                 </div>
               </div>
             </div>
-          {% endfor %}
+              {% endfor %}
             </div>
-      {% endfor %}
+              {% endfor %}
       </div>
     </div>
 
