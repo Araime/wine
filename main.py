@@ -5,9 +5,6 @@ from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-today = datetime.datetime.now()
-current_year = today.year
-
 
 def get_age(current_year):
     foundation_date = 1920
@@ -15,37 +12,41 @@ def get_age(current_year):
     return f'Уже {lifetime} год с вами'
 
 
-winery_age = get_age(current_year)
+if __name__ == '__main__':
+    today = datetime.datetime.now()
+    current_year = today.year
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
+    winery_age = get_age(current_year)
 
-wines_from_excel = pandas.read_excel(
-    'wines.xlsx',
-    sheet_name='Лист1',
-    na_values=' ',
-    keep_default_na=False
-)
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
 
-wines = wines_from_excel.to_dict(orient='record')
-grouped_wines = collections.defaultdict(list)
-for wine in wines:
-    key = wine.get('Категория')
-    grouped_wines[key].append(wine)
+    wines_from_excel = pandas.read_excel(
+        'wines.xlsx',
+        sheet_name='Лист1',
+        na_values=' ',
+        keep_default_na=False
+    )
 
-assortment_wines = OrderedDict(sorted(grouped_wines.items()))
+    wines_converted_to_dictionary = wines_from_excel.to_dict(orient='record')
+    grouped_wines = collections.defaultdict(list)
+    for wine in wines_converted_to_dictionary:
+        key = wine.get('Категория')
+        grouped_wines[key].append(wine)
 
-template = env.get_template('template.html')
+    sorted_by_order_of_wine = OrderedDict(sorted(grouped_wines.items()))
 
-rendered_page = template.render(
-    winery_age=winery_age,
-    assortment_wines=assortment_wines
-)
+    template = env.get_template('template.html')
 
-with open('index.html', 'w', encoding='utf8') as file:
-    file.write(rendered_page)
+    rendered_page = template.render(
+        winery_age=winery_age,
+        sorted_by_order_of_wine=sorted_by_order_of_wine
+    )
 
-server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-server.serve_forever()
+    with open('index.html', 'w', encoding='utf8') as file:
+        file.write(rendered_page)
+
+    server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
