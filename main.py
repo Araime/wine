@@ -2,7 +2,6 @@ import datetime
 import pandas
 import collections
 from collections import OrderedDict
-from pprint import pprint
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -12,8 +11,8 @@ current_year = today.year
 
 def get_age(current_year):
     foundation_date = 1920
-    lasted_for_years = current_year - foundation_date
-    return f'Уже {lasted_for_years} год с вами'
+    lifetime = current_year - foundation_date
+    return f'Уже {lifetime} год с вами'
 
 
 winery_age = get_age(current_year)
@@ -23,16 +22,16 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-excel_data = pandas.read_excel(
-    'wine3.xlsx',
+wines_from_excel = pandas.read_excel(
+    'wines.xlsx',
     sheet_name='Лист1',
     na_values=' ',
     keep_default_na=False
 )
 
-wines_3 = excel_data.to_dict(orient='record')
+wines = wines_from_excel.to_dict(orient='record')
 grouped_wines = collections.defaultdict(list)
-for wine in wines_3:
+for wine in wines:
     key = wine.get('Категория')
     grouped_wines[key].append(wine)
 
