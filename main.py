@@ -1,6 +1,7 @@
 import datetime
 import pandas
 import collections
+import argparse
 from collections import OrderedDict
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -13,9 +14,15 @@ def get_age(current_year):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Программа принимает файл в формате xlsx'
+                                                 ' для отображения на сайте', )
+    parser.add_argument('file_path', help='Необходимо в качестве аргумента при запуске указать'
+                                          ' полный путь к файлу')
+    args = parser.parse_args()
+    excel_file = args.file_path
+
     today = datetime.datetime.now()
     current_year = today.year
-
     winery_age = get_age(current_year)
 
     env = Environment(
@@ -24,7 +31,7 @@ if __name__ == '__main__':
     )
 
     wines_from_excel = pandas.read_excel(
-        'wines.xlsx',
+        excel_file,
         sheet_name='Лист1',
         na_values=' ',
         keep_default_na=False
@@ -39,7 +46,6 @@ if __name__ == '__main__':
     sorted_by_order_of_wine = OrderedDict(sorted(grouped_wines.items()))
 
     template = env.get_template('template.html')
-
     rendered_page = template.render(
         winery_age=winery_age,
         sorted_by_order_of_wine=sorted_by_order_of_wine
