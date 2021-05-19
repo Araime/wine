@@ -9,8 +9,8 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 def get_age(current_year):
     foundation_date = 1920
-    how_old_is_the_winery = current_year - foundation_date
-    return f'Уже {how_old_is_the_winery} год с вами'
+    age_of_the_winery = current_year - foundation_date
+    return f'Уже {age_of_the_winery} год с вами'
 
 
 if __name__ == '__main__':
