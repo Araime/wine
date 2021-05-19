@@ -29,7 +29,7 @@ if __name__ == '__main__':
     parser.add_argument('file_path', help='Необходимо в качестве аргумента при запуске указать'
                                           ' полный путь к файлу')
     args = parser.parse_args()
-    path_to_the_table = args.file_path
+    path_to_table = args.file_path
 
     today = datetime.datetime.now()
     current_year = today.year
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     )
 
     wines_from_table = pandas.read_excel(
-        path_to_the_table,
+        path_to_table,
         sheet_name='Лист1',
         na_values=' ',
         keep_default_na=False
