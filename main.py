@@ -8,7 +8,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 
 def get_age(current_year):
-    foundation_year = 1925
+    foundation_year = 1920
     age_of_the_winery = current_year - foundation_year
     return age_of_the_winery
 
