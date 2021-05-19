@@ -49,9 +49,9 @@ if __name__ == '__main__':
         keep_default_na=False
     )
 
-    wines_converted_to_dictionary = wines_from_table.to_dict(orient='records')
+    wines_table_to_dict = wines_from_table.to_dict(orient='records')
     grouped_wines = collections.defaultdict(list)
-    for wine in wines_converted_to_dictionary:
+    for wine in wines_table_to_dict:
         key = wine.get('Категория')
         grouped_wines[key].append(wine)
 
