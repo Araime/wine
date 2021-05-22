@@ -24,6 +24,23 @@ def get_age_in_years(age):
     return word
 
 
+def get_ordered_wines(path_to_file):
+    wines_from_file = pandas.read_excel(
+        path_to_file,
+        sheet_name='Лист1',
+        na_values=' ',
+        keep_default_na=False
+    ).to_dict(orient='records')
+
+    products = collections.defaultdict(list)
+    for wine in wines_from_file:
+        key = wine.get('Категория')
+        products[key].append(wine)
+
+    ordered_products = OrderedDict(sorted(products.items()))
+    return ordered_products
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Программа принимает файл в формате xlsx'
                                                  ' для отображения на сайте', )
@@ -37,24 +54,12 @@ if __name__ == '__main__':
     age_in_years = get_age_in_years(age)
     age_label = f'Уже {age} {age_in_years} с вами'
 
+    ordered_wines = get_ordered_wines(path_to_file)
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
-
-    wines_from_file = pandas.read_excel(
-        path_to_file,
-        sheet_name='Лист1',
-        na_values=' ',
-        keep_default_na=False
-    ).to_dict(orient='records')
-
-    products = collections.defaultdict(list)
-    for wine in wines_from_file:
-        key = wine.get('Категория')
-        products[key].append(wine)
-
-    ordered_wines = OrderedDict(sorted(products.items()))
 
     template = env.get_template('template.html')
     rendered_page = template.render(
