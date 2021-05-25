@@ -14,7 +14,7 @@ def get_age(foundation_year):
     return age_of_the_winery
 
 
-def get_age_in_years(age):
+def get_years_caption(age):
     if age % 10 == 1 and age != 11 and age % 100 != 11:
         word = 'год'
     elif 1 < age % 10 <= 4 and age != 12 and age != 13 and age != 14:
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
     foundation_year = 1920
     age = get_age(foundation_year)
-    age_in_years = get_age_in_years(age)
+    age_in_years = get_years_caption(age)
     age_label = f'Уже {age} {age_in_years} с вами'
 
     ordered_wines = get_ordered_wines(path_to_file)
